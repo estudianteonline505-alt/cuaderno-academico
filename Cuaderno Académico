@@ -61,7 +61,7 @@
 </head>
 <body>
   <h1>📘 Cuaderno Académico Digital</h1>
-  <p>Hola, soy [Elian Rivas ], estudiante de 11°. Este cuaderno lo hago para ayudar a mi colegio.</p>
+  <p>Hola, soy [TU NOMBRE], estudiante de 11°. Este cuaderno lo hago para ayudar a mi colegio.</p>
 
   <div class="container">
     <h2>📝 Mis Tareas</h2>
@@ -69,7 +69,7 @@
     <button onclick="addTask()">Agregar Tarea</button>
 
     <div id="taskList">
-      <!-- Aquí aparecerán las tareas -->
+      <!-- Las tareas se cargarán aquí -->
     </div>
   </div>
 
@@ -78,6 +78,20 @@
   </footer>
 
   <script>
+    // Función para cargar tareas guardadas al abrir la página
+    function loadTasks() {
+      const taskList = document.getElementById("taskList");
+      const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+
+      tasks.forEach(taskText => {
+        const taskDiv = document.createElement("div");
+        taskDiv.className = "task";
+        taskDiv.textContent = taskText;
+        taskList.appendChild(taskDiv);
+      });
+    }
+
+    // Función para agregar una nueva tarea
     function addTask() {
       const input = document.getElementById("taskInput");
       const taskText = input.value.trim();
@@ -93,8 +107,16 @@
       taskDiv.textContent = taskText;
       taskList.appendChild(taskDiv);
 
+      // Guardar en localStorage
+      const tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+      tasks.push(taskText);
+      localStorage.setItem("tasks", JSON.stringify(tasks));
+
       input.value = ""; // Limpia el campo
     }
+
+    // Cargar tareas cuando la página se abra
+    window.onload = loadTasks;
   </script>
 </body>
 </html>
